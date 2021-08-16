@@ -95,12 +95,21 @@ for _ in range(5):
     parsed_data = parse_row(row)
     print(parsed_data)
 
-# for row in read_data():
-#     parsed_row = parse_row(row)
-#     if
+for row in read_data():
+    parsed_row = parse_row(row)
+    if parsed_row is None:
+        print(list(zip(column_names, row.strip('\n').split(','))), end='\n\n')
 
 
 
+def parsed_data():
+    for row in read_data():
+        parsed = parse_row(row)
+        if parsed:
+            yield parsed
+parsed_rows =  parsed_data()
 
+for _ in range(5):
+    print(next(parsed_rows))
 
 
