@@ -79,6 +79,7 @@ column_parsers = (parse_int,
                   lambda x: parse_string(x, default='')
                   )
 
+
 def parse_row(row, *, default=None):
     fields = row.strip('\n').split(',')
     parsed_data = [func(field)
@@ -90,17 +91,18 @@ def parse_row(row, *, default=None):
         return default
 rows = read_data()
 
+
 print('-------')
 for _ in range(5):
     row = next(rows)
     parsed_data = parse_row(row)
     print(parsed_data)
 
+
 for row in read_data():
     parsed_row = parse_row(row)
     if parsed_row is None:
         print(list(zip(column_names, row.strip('\n').split(','))), end='\n\n')
-
 
 
 def parsed_data():
@@ -110,19 +112,20 @@ def parsed_data():
             yield parsed
 parsed_rows =  parsed_data()
 
-for _ in range(5):
-    print(next(parsed_rows))
 
-makes_counts = defaultdict(int)
-for data in parsed_data():
+# for _ in range(5):
+#     print(next(parsed_rows))
+
+
+def violation_count_by_make():
+    makes_counts = defaultdict(int)
+    for data in parsed_data():
         makes_counts[data.vehicle_make] += 1
 
-
-for make, cnt in sorted(makes_counts.items(),
-                        key= lambda t:t[1],
-                        reverse=True):
-    print(make, cnt)
-
+    return {make: cnt
+            for make, cnt in  sorted(makes_counts.items(),
+                                     key=lambda t: t[1],
+                                     reverse=True)}
 
 
-
+print(violation_count_by_make())
