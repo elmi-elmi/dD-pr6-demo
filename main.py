@@ -2,6 +2,7 @@
 from collections import namedtuple
 from datetime import datetime
 from functools import partial
+from collections import defaultdict
 
 
 file_name = './nyc_parking_tickets_extract.csv'
@@ -111,5 +112,17 @@ parsed_rows =  parsed_data()
 
 for _ in range(5):
     print(next(parsed_rows))
+
+makes_counts = defaultdict(int)
+for data in parsed_data():
+        makes_counts[data.vehicle_make] += 1
+
+
+for make, cnt in sorted(makes_counts.items(),
+                        key= lambda t:t[1],
+                        reverse=True):
+    print(make, cnt)
+
+
 
 
